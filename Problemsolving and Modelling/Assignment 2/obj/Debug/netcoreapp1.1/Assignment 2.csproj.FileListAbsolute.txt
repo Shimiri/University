@@ -1,8 +1,0 @@
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\bin\Debug\netcoreapp1.1\Assignment 2.deps.json
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\bin\Debug\netcoreapp1.1\Assignment 2.runtimeconfig.json
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\bin\Debug\netcoreapp1.1\Assignment 2.runtimeconfig.dev.json
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\bin\Debug\netcoreapp1.1\Assignment 2.dll
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\bin\Debug\netcoreapp1.1\Assignment 2.pdb
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\obj\Debug\netcoreapp1.1\Assignment 2.AssemblyInfo.cs
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\obj\Debug\netcoreapp1.1\Assignment 2.dll
-C:\Users\Samuel\Source\Repositories\University\Problemsolving and Modelling\Assignment 2\obj\Debug\netcoreapp1.1\Assignment 2.pdb
