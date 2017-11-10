@@ -1,6 +1,5 @@
 package sb223jy_lab1;
 
-import javax.naming.OperationNotSupportedException;
 import java.util.Scanner;
 
 public class VaxelPengar {
