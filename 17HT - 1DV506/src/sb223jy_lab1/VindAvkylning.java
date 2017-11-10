@@ -14,6 +14,8 @@ public class VindAvkylning {
         double v = scanner.nextDouble() * 3.6;
 
         System.out.println("\nUpplevd tempratur: " + calculateTwc(t, v));
+
+        scanner.close();
     }
 
     private static double calculateTwc(double t, double v) {
