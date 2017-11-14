@@ -8,14 +8,14 @@ public class StorstaK {
 
         System.out.print("Mata in ett positivt heltal: ");
         int n = scanner.nextInt();
+        int k = 0;
+        int i = 0;
 
         if(n <= 0) {
             System.out.println("Bara positiva heltal är tillåtna.");
             return;
         }
 
-        int k = 0;
-        int i = 0;
         while (k < n) {
             i++;
             k += i * 2;

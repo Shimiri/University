@@ -8,14 +8,19 @@ public class HighLow {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int n = (int) (Math.random() * 100) + 1;
-        System.out.println("N = " + n);
 
         int guess = -1;
+        int numOfguesses = 0;
         int i = 0;
 
         while (guess != n) {
             System.out.print("Gissning " + (++i) + ": ");
             guess = scanner.nextInt();
+
+            if (++numOfguesses == 10) {
+                System.out.println("Maximalt antal gissningar. Försök igen!");
+                return;
+            }
 
             if (guess < n)
                 System.out.println("Ledtråd: Högre");
