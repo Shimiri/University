@@ -35,5 +35,7 @@ public class Palindrom {
         }
 
         System.out.println("\"" + text + "\" is palindrome: " + isPalindrome);
+
+        scanner.close();
     }
 }
