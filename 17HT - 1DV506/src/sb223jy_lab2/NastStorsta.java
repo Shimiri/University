@@ -18,7 +18,7 @@ public class NastStorsta {
         System.out.print("Mata in " + n + " heltal avgränsade med ett mellanrum: ");
         String userNumStr = scanner.nextLine();
 
-        int largest = 0;
+        int largest = Integer.MIN_VALUE;
         int secondLargest = 0;
 
         for (int i = 0, j = 0; i < n; i++, j++) {
