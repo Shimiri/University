@@ -2,8 +2,12 @@ package sb223jy_lab3;
 
 public class Arrays {
     public static void main(String[] args) {
-        int[] arr = new int[]{1, 2, 3, 4, 5};
-        System.out.println(hasSubsequence(arr, new int[]{2, 3, 4}));
+        int[] arr = new int[]{2, 14, -2, 10, 7};
+
+        System.out.println(sum(arr));
+        System.out.println(toString(arr));
+        System.out.println(toString(addN(arr, 2)));
+        System.out.println();
     }
 
     private static int sum(int[] arr) {
@@ -14,14 +18,14 @@ public class Arrays {
     }
 
     private static String toString(int[] arr) {
-        String str = new String();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < arr.length; i++) {
             if (i == arr.length - 1)
-                str += arr[i];
+                sb.append(arr[i]);
             else
-                str += arr[i] + ", ";
+                sb.append(arr[i] + ", ");
         }
-        return str;
+        return sb.toString();
     }
 
     private static int[] addN(int[] arr, int n) {
