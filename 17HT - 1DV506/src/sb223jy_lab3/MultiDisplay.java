@@ -36,6 +36,7 @@ public class MultiDisplay {
             System.out.println("Value must be greater than 0.");
     }
 
+
     public String getMessage() {
         return message;
     }
@@ -45,6 +46,12 @@ public class MultiDisplay {
     }
 
     public void display() {
+        for (int i = 0; i < count; i++) {
+            System.out.println(message);
+        }
+    }
+
+    public void display(int count, String message) {
         for (int i = 0; i < count; i++) {
             System.out.println(message);
         }
