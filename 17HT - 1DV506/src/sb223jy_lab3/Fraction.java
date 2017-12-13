@@ -32,24 +32,49 @@ public class Fraction {
         return numerator + "/" + denominator;
     }
 
-    /*
-        1. D1 * N2 + D2 * N1 = Numerator
-        2. D1 * D2 = Denominator
-     */
-    public Fraction addition(Fraction f) {
-        return new Fraction((denominator * f.numerator) + (denominator * f.denominator), numerator * f.numerator);
+    public Fraction addition(Fraction f) throws DenominatorIsZeroException {
+        if (denominator == 0 || f.denominator == 0)
+            throw new DenominatorIsZeroException("Denominator can't be zero.");
+
+        int newNum = denominator * f.numerator + f.denominator * numerator;
+        int newDem = denominator * f.denominator;
+
+        return new Fraction(newNum, newDem);
     }
 
-    public Fraction subtraction(Fraction f) {
-        return this;
+    public Fraction subtraction(Fraction f) throws DenominatorIsZeroException {
+        if (denominator == 0 || f.denominator == 0)
+            throw new DenominatorIsZeroException("Denominator can't be zero.");
+
+        int newNum = f.denominator * numerator - denominator * f.numerator;
+        int newDem = denominator * f.denominator;
+
+        return new Fraction(newNum, newDem);
     }
 
-    public Fraction division(Fraction f) {
-        return this;
+    public Fraction division(Fraction f) throws DenominatorIsZeroException {
+        if (denominator == 0 || f.denominator == 0)
+            throw new DenominatorIsZeroException("Denominator can't be zero.");
+
+        int newNum = numerator * f.denominator;
+        int newDem = denominator * f.numerator;
+
+        return new Fraction(newNum, newDem);
     }
 
-    public Fraction multiplication(Fraction f) {
-        return this;
-    }
+    public Fraction multiplication(Fraction f) throws DenominatorIsZeroException {
+        if (denominator == 0 || f.denominator == 0)
+            throw new DenominatorIsZeroException("Denominator can't be zero.");
 
+        int newNum = numerator * f.numerator;
+        int newDem = denominator * f.denominator;
+
+        return new Fraction(newNum, newDem);
+    }
+}
+
+class DenominatorIsZeroException extends Exception {
+    DenominatorIsZeroException(String message) {
+        System.out.println(message);
+    }
 }
