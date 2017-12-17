@@ -3,21 +3,19 @@ package sb223jy_lab3;
 public class FractionMain {
     public static void main(String[] args) {
         Fraction f1 = new Fraction(1, 2);
-        Fraction f2 = new Fraction(0, 3);
-
-        /*
+        Fraction f2 = new Fraction(2, 3);
         try {
             System.out.println(f1.addition(f2));
         } catch (DenominatorIsZeroException e) { }
         try {
             System.out.println(f1.subtraction(f2));
         } catch (DenominatorIsZeroException e) { }
-        */
-
+        try {
+            System.out.println(f1.multiplication(f2));
+        } catch (DenominatorIsZeroException e) { }
         try {
             System.out.println(f1.division(f2));
         } catch (DenominatorIsZeroException e) { }
-
 
         System.out.println();
 
