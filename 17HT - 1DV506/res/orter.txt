@@ -1,0 +1,7 @@
+51000;Jönköping
+75242;Uppsala
+90325;Umeå
+96133;Boden
+23642;Höllviken
+72211;Västerås
+35243;Växjö
