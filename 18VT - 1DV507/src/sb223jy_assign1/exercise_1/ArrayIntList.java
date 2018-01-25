@@ -1,8 +1,5 @@
 package sb223jy_assign1.exercise_1;
 
-import sb223jy_assign1.exercise_1.da1031.AbstractIntCollection;
-import sb223jy_assign1.exercise_1.da1031.IntList;
-
 public class ArrayIntList extends AbstractIntCollection implements IntList {
     private int capacity;
 

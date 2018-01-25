@@ -4,7 +4,7 @@
  * Author: Jonas Lundberg
  */
 
-package sb223jy_assign1.exercise_1.da1031;
+package sb223jy_assign1.exercise_1;
 
 import java.lang.IndexOutOfBoundsException;
 

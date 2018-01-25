@@ -1,8 +1,5 @@
 package sb223jy_assign1.exercise_1;
 
-import sb223jy_assign1.exercise_1.da1031.AbstractIntCollection;
-import sb223jy_assign1.exercise_1.da1031.IntStack;
-
 public class ArrayIntStack extends AbstractIntCollection implements IntStack {
     private int capacity;
 
