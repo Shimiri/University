@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class WarAndPeace {
@@ -32,25 +31,15 @@ public class WarAndPeace {
             e.printStackTrace();
         }
 
-        List<String> data = new ArrayList<>();
-        Predicate<String> unique = (s) -> {
-            String strLowerCase = s.toLowerCase();
-            if (data.contains(strLowerCase))
-                return false;
-            else {
-                data.add(strLowerCase);
-                return true;
-            }
-        };
-        Function<String, String> replaceInvalidChars = (s) -> s.replaceAll("\\W", "");
         Function<String, String> toLowerCase = String::toLowerCase;
+        Function<String, String> replaceInvalidChars = (s) -> s.replaceAll("\\W", "");
         Predicate<String> removeNumbers = (s) -> !s.matches("\\d*");
 
         List<String> uniqueWords = words.stream()
                 .map(toLowerCase)
                 .map(replaceInvalidChars)
                 .filter(removeNumbers)
-                .filter(unique)
+                .distinct()
                 .collect(Collectors.toList());
 
         System.out.println(uniqueWords.size());
