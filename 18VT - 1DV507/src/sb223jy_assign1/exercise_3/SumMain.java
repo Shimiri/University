@@ -2,7 +2,7 @@ package sb223jy_assign1.exercise_3;
 
 public class SumMain {
     public static void main(String[] args) {
-        System.out.println(sum(28000));
+        System.out.println(sum(20000));
     }
 
     private static int sum(int n) {

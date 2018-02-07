@@ -16,7 +16,7 @@ public class PrintJavaMain {
         if (!directory.isDirectory() && name.length() > 5)
             subName = name.substring(name.length() - 5, name.length());
 
-        StringBuilder whiteSpace = new StringBuilder(new String());
+        StringBuilder whiteSpace = new StringBuilder();
         for (int i = 0; i < depth; i++)
             whiteSpace.append(" ");
 
