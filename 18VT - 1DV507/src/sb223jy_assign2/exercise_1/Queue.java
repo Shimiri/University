@@ -2,6 +2,10 @@ package sb223jy_assign2.exercise_1;
 
 import java.util.Iterator;
 
+/**
+ * Queue interface.
+ * Can be implemented using an array or linked list.
+ */
 public interface Queue {
     public int size();                     // current queue size
     public boolean isEmpty();              // true if queue is empty

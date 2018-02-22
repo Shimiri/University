@@ -20,7 +20,7 @@ public class WarAndPeace {
      */
 
     public static void main(String[] args) {
-        File txtFile = new File("C:\\Users\\Samuel Bäckström\\Repositories\\University\\18VT - 1DV507\\res\\WarAndPeace.txt");
+        File txtFile = new File("res/WarAndPeace.txt");
         List<String> words = new ArrayList<>();
         try {
             Scanner fileScanner = new Scanner(txtFile);

@@ -4,10 +4,9 @@ import java.util.Iterator;
 
 /**
  * Queue interface implemented using a linked list.
- *
  * @author Samuel Bäckström
  */
-public class LinkedQueue implements Queue {
+public class    LinkedQueue implements Queue {
     private int size;
 
     private Node head;
@@ -132,14 +131,11 @@ public class LinkedQueue implements Queue {
         }
     }
 
+    /**
+     * Inner Node class. Used for storing the data.
+     */
     private class Node {
-        /**
-         * The Next.
-         */
         public Node next;
-        /**
-         * The Element.
-         */
         public Object element;
 
         /**

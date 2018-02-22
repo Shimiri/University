@@ -1,6 +1,5 @@
 package sb223jy_assign1.exercise_6;
 
-import org.knowm.xchart.*;
 
 import java.awt.*;
 import java.io.File;
@@ -136,56 +135,5 @@ public class Histogram {
             }
         }
         data[9] = i;
-
-        generateChart(data);
-    }
-
-    private static void generateChart(int[] data) {
-        PieChart chart = new PieChartBuilder().width(800).height(600).title("").build();
-
-        // Customize Chart
-        Color[] sliceColors = new Color[] { Color.blue,
-                                            Color.black,
-                                            Color.red,
-                                            Color.pink,
-                                            Color.gray,
-                                            Color.cyan,
-                                            Color.green,
-                                            Color.orange,
-                                            Color.magenta,
-                                            Color.yellow };
-        chart.getStyler().setSeriesColors(sliceColors);
-
-        // Series
-        chart.addSeries("1 - 10", data[0]);
-        chart.addSeries("11 - 20", data[1]);
-        chart.addSeries("21 - 30", data[2]);
-        chart.addSeries("31 - 40", data[3]);
-        chart.addSeries("41 - 50", data[4]);
-        chart.addSeries("51 - 60", data[5]);
-        chart.addSeries("61 - 70", data[6]);
-        chart.addSeries("71 - 80", data[7]);
-        chart.addSeries("81 - 90", data[8]);
-        chart.addSeries("91 - 100", data[9]);
-
-        new SwingWrapper<>(chart).displayChart();
-
-        CategoryChart bar = new CategoryChartBuilder().width(800).height(600).title("").xAxisTitle("").yAxisTitle("").build();
-
-        Integer[] numbers = new Integer[] { data[0],
-                                            data[1],
-                                            data[2],
-                                            data[3],
-                                            data[4],
-                                            data[5],
-                                            data[6],
-                                            data[7],
-                                            data[8],
-                                            data[9] };
-
-        // Series
-        bar.addSeries("test", Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), Arrays.asList(numbers));
-
-        new SwingWrapper<>(bar).displayChart();
     }
 }
