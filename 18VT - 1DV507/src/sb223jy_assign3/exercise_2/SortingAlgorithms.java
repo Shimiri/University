@@ -16,8 +16,21 @@ public class SortingAlgorithms {
     public static int[] generateArray(int n) {
         int[] randomArr = new int[n];
         for (int i = 0; i < n; i++)
-            randomArr[i] = (int) (Math.random() * 100);
+            randomArr[i] = (int) (Math.random() * (n * 100));
         return randomArr;
+    }
+
+    public static String[] generateStringArray(int n) {
+        StringBuilder sb = new StringBuilder("");
+        String[] stringArr = new String[n];
+        for (int i = 0; i < stringArr.length; i++) {
+            for (int j = 0; j < 10; j++) {
+                sb.append((char) (65 + (Math.random() * 25)));
+            }
+            stringArr[i] = sb.toString();
+            sb.delete(0, sb.toString().length());
+        }
+        return stringArr;
     }
 
     public static String intArrayToString(int[] in) {
@@ -116,7 +129,6 @@ public class SortingAlgorithms {
     }
 
     public static String[] mergeSort(String[] in, Comparator<String> c) {
-        String[] sorted = new String[in.length];
         if (in.length == 1)
             return in;
 
