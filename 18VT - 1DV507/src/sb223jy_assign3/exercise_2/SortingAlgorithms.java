@@ -21,7 +21,7 @@ public class SortingAlgorithms {
     }
 
     public static String[] generateStringArray(int n) {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         String[] stringArr = new String[n];
         for (int i = 0; i < stringArr.length; i++) {
             for (int j = 0; j < 10; j++) {
