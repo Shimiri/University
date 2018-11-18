@@ -20,7 +20,9 @@ namespace Calculator
 
         public String GetInput()
         {
-            return "";  
+            String promptText = "Select an operation to perform: ";
+            Console.Write(promptText);
+            return Console.ReadLine();
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Calculator.Tests
             //Setup mock
             String promptText = "Select an operation to perform: ";
             _mockConsole.Setup(c => c.Write(promptText));
-            _mockConsole.Setup(c => c.ReadLine()).Returns("1");
+            _mockConsole.Setup(c => c.ReadLine());
 
             //Setup SUT and dependency injection
             View sut = new View(_mockConsole.Object);

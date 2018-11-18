@@ -6,12 +6,12 @@ namespace Calculator
     {
         public string ReadLine()
         {
-            throw new NotImplementedException();
+            return Console.ReadLine();
         }
 
         public void Write(string text)
         {
-            throw new NotImplementedException();
+            Console.Write(text);
         }
 
         public void WriteLine(string text)
