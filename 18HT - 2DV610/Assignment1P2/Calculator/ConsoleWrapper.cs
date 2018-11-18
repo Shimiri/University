@@ -6,7 +6,7 @@ namespace Calculator
     {
         public void WriteLine(string text)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(text);
         }
     }
 }
