@@ -6,7 +6,8 @@ namespace Calculator
     {
         private IConsole Console { get; }
 
-        private const String operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
+        private const String _operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
+        private const String _promptText = "Select an operation to perform: ";
 
         public View(IConsole c)
         {
@@ -15,13 +16,12 @@ namespace Calculator
 
         public void DisplayMenu()
         {   
-            Console.WriteLine(operationsMenu);
+            Console.WriteLine(_operationsMenu);
         }
 
         public String GetInput()
         {
-            String promptText = "Select an operation to perform: ";
-            Console.Write(promptText);
+            Console.Write(_promptText);
             return Console.ReadLine();
         }
     }
