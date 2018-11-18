@@ -4,18 +4,18 @@ namespace Calculator
 {
     public class View
     {
-        public IConsole Writer { get; set; }
+        private IConsole Console { get; }
 
         private const String operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
 
-        public View()
+        public View(IConsole c)
         {
-            
+            Console = c;
         }
 
         public void DisplayMenu()
         {   
-            Writer.WriteLine(operationsMenu);
+            Console.WriteLine(operationsMenu);
         }
     }
 }

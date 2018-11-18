@@ -7,14 +7,12 @@ namespace Calculator.Tests
 {
     public class View_Should
     {
-        private readonly View _sut;
         private readonly Mock<View> _mockView;
         private readonly Mock<Calculator> _mockCalc;
         private readonly Mock<IConsole> _mockConsole;
 
         public View_Should()
         {
-            _sut = new View();
             _mockView = new Mock<View>();
             _mockCalc = new Mock<Calculator>();
             _mockConsole = new Mock<IConsole>();
@@ -27,11 +25,11 @@ namespace Calculator.Tests
             String operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
             _mockConsole.Setup(c => c.WriteLine(operationsMenu));
 
-            //Dependency injection
-            _sut.Writer = _mockConsole.Object;
+            //Setup SUT and dependency injection
+            View sut = new View(_mockConsole.Object);
 
             //Exercise
-            _sut.DisplayMenu();
+            sut.DisplayMenu();
 
             //Verification
             _mockConsole.VerifyAll();
