@@ -17,5 +17,10 @@ namespace Calculator
         {   
             Console.WriteLine(operationsMenu);
         }
+
+        public String GetInput()
+        {
+            return "";  
+        }
     }
 }
