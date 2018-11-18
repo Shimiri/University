@@ -23,14 +23,18 @@ namespace Calculator.Tests
         [Fact]
         private void DisplayMenu_ShouldDisplayTheOperationsMenuOnConsole()
         {
-            //Setup mocks
+            //Setup mock
             String operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
             _mockConsole.Setup(c => c.WriteLine(operationsMenu));
 
+            //Dependency injection
             _sut.Writer = _mockConsole.Object;
+
+            //Exercise
             _sut.DisplayMenu();
 
+            //Verification
             _mockConsole.VerifyAll();
-        }   
+        } 
     }
 }
