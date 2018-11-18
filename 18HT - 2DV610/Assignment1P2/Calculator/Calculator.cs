@@ -11,7 +11,7 @@ namespace Calculator
 
         public int AddNums(int x, int y) 
         {
-            return 1;
+            return x + y;
         }
     }
 }
