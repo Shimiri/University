@@ -9,7 +9,7 @@ namespace Calculator
             
         }
 
-        public int AddNums(int x, int y) 
+        public virtual int AddNums(int x, int y) 
         {
             return x + y;
         }

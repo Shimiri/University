@@ -12,5 +12,10 @@
             view.DisplayMenu();
             view.GetInput();
         }
+
+        public static void SelectOperation(Calculator calc, string userInput)
+        {
+            
+        }
     }
 }
