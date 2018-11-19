@@ -13,5 +13,10 @@ namespace Calculator
         {
             return x + y;
         }
+
+        public virtual int SubtractNums(int x, int y)
+        {
+            return 0;
+        }
     }
 }
