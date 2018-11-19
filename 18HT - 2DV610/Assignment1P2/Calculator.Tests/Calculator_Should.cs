@@ -23,7 +23,7 @@ namespace Calculator.Tests
         {
             int actual = _sut.AddNums(x, y);
                 
-            Assert.Equal(actual, expected); 
+            Assert.Equal(expected, actual); 
         }
 
         [Theory]
@@ -35,7 +35,7 @@ namespace Calculator.Tests
         {
             int actual = _sut.SubtractNums(x, y);
             
-            Assert.Equal(actual, expected);
+            Assert.Equal(expected, actual);
         }
     }
 }
