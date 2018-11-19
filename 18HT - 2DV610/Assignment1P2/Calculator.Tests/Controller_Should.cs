@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Calculator.Tests
 {
-    public class Program_Should
+    public class Controller_Should
     {
         private readonly Mock<View> _mockView;
         private readonly Mock<Calculator> _mockCalc;
 
-        public Program_Should()
+        public Controller_Should()
         {
             _mockView = new Mock<View>(new ConsoleWrapper());
             _mockCalc = new Mock<Calculator>();
@@ -22,8 +22,11 @@ namespace Calculator.Tests
             _mockView.Setup(view => view.DisplayMenu());
             _mockView.Setup(view => view.GetInput());
             
-            //Exercise and dependency injection
-            Program.Run(_mockView.Object);
+            //Dependency injection
+            var sut = new Controller(_mockCalc.Object, _mockView.Object);
+            
+            //Exercise
+            sut.Run();
             
             //Verify
             _mockView.VerifyAll();
@@ -36,8 +39,11 @@ namespace Calculator.Tests
             //Mock setup
             _mockCalc.Setup(calc => calc.AddNums(1, 1));
 
-            //Exercise and dependency injection
-            Program.SelectOperation(_mockCalc.Object, userInput);
+            //Dependency injection
+            var sut = new Controller(_mockCalc.Object, _mockView.Object);
+            
+            //Exercise
+            sut.SelectOperation(userInput);
                
             //Verify
             if (userInput == "1")
