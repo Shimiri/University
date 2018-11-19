@@ -1,20 +1,21 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Calculator
 {
     public class ConsoleWrapper : IConsole
     {
-        public string ReadLine()
+        public virtual string ReadLine()
         {
             return Console.ReadLine();
         }
 
-        public void Write(string text)
+        public virtual void Write(string text)
         {
             Console.Write(text);
         }
 
-        public void WriteLine(string text)
+        public virtual void WriteLine(string text)
         {
             Console.WriteLine(text);
         }

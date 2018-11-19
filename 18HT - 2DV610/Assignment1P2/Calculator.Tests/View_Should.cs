@@ -1,20 +1,14 @@
-using System;
 using Xunit;
 using Moq;
-using Calculator;
 
 namespace Calculator.Tests
 {
     public class View_Should
     {
-        private readonly Mock<View> _mockView;
-        private readonly Mock<Calculator> _mockCalc;
         private readonly Mock<IConsole> _mockConsole;
 
         public View_Should()
         {
-            _mockView = new Mock<View>();
-            _mockCalc = new Mock<Calculator>();
             _mockConsole = new Mock<IConsole>();
         }
 
@@ -22,11 +16,11 @@ namespace Calculator.Tests
         private void DisplayMenu_ShouldDisplayTheOperationsMenuOnConsole()
         {
             //Setup mock
-            String operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
+            const string operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
             _mockConsole.Setup(c => c.WriteLine(operationsMenu));
 
             //Setup SUT and dependency injection
-            View sut = new View(_mockConsole.Object);
+            var sut = new View(_mockConsole.Object);
 
             //Exercise
             sut.DisplayMenu();
@@ -39,12 +33,12 @@ namespace Calculator.Tests
         private void GetInput_ShouldPromptUserForInput()
         {   
             //Setup mock
-            String promptText = "Select an operation to perform: ";
+            const string promptText = "Select an operation to perform: ";
             _mockConsole.Setup(c => c.Write(promptText));
             _mockConsole.Setup(c => c.ReadLine());
 
             //Setup SUT and dependency injection
-            View sut = new View(_mockConsole.Object);
+            var sut = new View(_mockConsole.Object);
 
             //Exercise
             sut.GetInput();

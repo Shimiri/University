@@ -21,8 +21,8 @@ namespace Calculator.Tests
         public void Add_ShouldAddTwoNumbers(int x, int y, int expected)
         {
             int actual = _sut.AddNums(x, y);
-
-            Assert.Equal(actual, expected);
+                
+            Assert.Equal(actual, expected); 
         }
     }
 }
