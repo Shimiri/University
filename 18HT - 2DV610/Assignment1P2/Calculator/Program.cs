@@ -15,7 +15,10 @@
 
         public static void SelectOperation(Calculator calc, string userInput)
         {
-            
+            if (userInput == "1")
+            {
+                calc.AddNums(1, 1);
+            }
         }
     }
 }
