@@ -16,7 +16,7 @@ namespace Calculator.Tests
         private void DisplayMenu_ShouldDisplayTheOperationsMenuOnConsole()
         {
             //Setup mock
-            const string operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4.Divide";
+            const string operationsMenu = "1. Add\n2. Subtract\n3. Multiply\n4. Divide";
             _mockConsole.Setup(c => c.WriteLine(operationsMenu));
 
             //Setup SUT and dependency injection
