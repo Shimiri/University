@@ -36,6 +36,6 @@ namespace Calculator.Tests
             int actual = _sut.SubtractNums(x, y);
             
             Assert.Equal(expected, actual);
-        }
+        }    
     }
 }

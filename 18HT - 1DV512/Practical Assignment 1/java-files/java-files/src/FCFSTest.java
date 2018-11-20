@@ -30,7 +30,7 @@ public class FCFSTest {
 		//the second method parameter is the arrival time
 		//the third method parameter is the burst time
 		listOfProcesses.add(new Process(1, 0, 2));
-		listOfProcesses.add(new Process(2, 3, 1	));
+		listOfProcesses.add(new Process(2, 3, 1));
 		listOfProcesses.add(new Process(3, 5, 6));
 
 		FCFS myFcfs = new FCFS(listOfProcesses);

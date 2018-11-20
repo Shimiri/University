@@ -6,8 +6,7 @@
  * Date: 	November, 2018
  */
 
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 
 public class FCFS {
 
@@ -22,16 +21,48 @@ public class FCFS {
 	public void run() {
 		processes.sort(comparator);
 
-		Process p = processes.get(0);
-		p.setCompletedTime(p.getBurstTime());
-		p.setTurnaroundTime(p.getBurstTime());
-		p.setWaitingTime(0);
+		int CPUTimer = 0;
+		int i = 0;
+		int workload = processes.size();
+		int activeBurstTime = 0;
 
-		for (int i = 1; i < processes.size();  i++) {
-			calculateCompletedTime(i);
-			calculateTurnaroundTime(i);
-			calculateWaitingTime(i);
-		}
+		Process active = null;
+        ArrayDeque<Process> q = new ArrayDeque<>();
+
+        Process nextProcess = processes.get(i);
+
+		while (workload > 0) {
+            if (nextProcess.getArrivalTime() <= CPUTimer) {
+                if (!q.contains(nextProcess)) {
+                    q.addLast(nextProcess);
+
+                    i++;
+                    if (i < processes.size()) {
+                        nextProcess = processes.get(i);
+                    }
+                }
+            }
+
+            if (active == null) {
+                try {
+                    active = q.removeFirst();
+                    activeBurstTime = active.getBurstTime();
+                } catch (Exception ignored) {
+
+                }
+            }
+
+            activeBurstTime--;
+            CPUTimer++;
+            if (activeBurstTime == 0 && active != null) {
+                calculateCompletedTime(active, CPUTimer);
+                calculateTurnaroundTime(active);
+                calculateWaitingTime(active);
+
+                active = null;
+                workload--;
+            }
+        }
 
 		printTable();
 		printGanttChart();
@@ -155,31 +186,18 @@ public class FCFS {
 		gantz.append(end);
 	}
 
-	private void calculateCompletedTime(int i) {
-		Process current = processes.get(i);
-		Process previous = processes.get(i - 1);
-
-		if (current.getArrivalTime() <= previous.getCompletedTime()) {
-			int ct = previous.getCompletedTime() + current.getBurstTime();
-			current.setCompletedTime(ct);
-		} else {
-			int ct = current.getArrivalTime() + current.getBurstTime();
-			current.setCompletedTime(ct);
-		}
+	private void calculateCompletedTime(Process p, int ct) {
+		p.setCompletedTime(ct);
 	}
 
-	private void calculateTurnaroundTime(int i) {
-		Process current = processes.get(i);
-
-		int tat = current.getCompletedTime() - current.getArrivalTime();
-		current.setTurnaroundTime(tat);
+	private void calculateTurnaroundTime(Process p) {
+		int tat = p.getCompletedTime() - p.getArrivalTime();
+		p.setTurnaroundTime(tat);
 	}
 
-	private void calculateWaitingTime(int i) {
-		Process current = processes.get(i);
-
-		int wt = current.getTurnaroundTime() - current.getBurstTime();
-		current.setWaitingTime(wt);
+	private void calculateWaitingTime(Process p) {
+		int wt = p.getTurnaroundTime() - p.getBurstTime();
+		p.setWaitingTime(wt);
 	}
 
 	private Comparator<Process> comparator = Comparator.comparingInt(Process::getArrivalTime);
