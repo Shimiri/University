@@ -176,10 +176,7 @@ public class Philosopher implements Runnable {
 
     private void changeToEating() {
         pickUpChopStick(leftChopStick);
-
-        if (holdingChopStick(leftChopStick)) {
-            pickUpChopStick(rightChopStick);
-        }
+		pickUpChopStick(rightChopStick);
 
         if (holdingChopStick(leftChopStick) && holdingChopStick(rightChopStick)) {
             state = PhilosopherState.EATING;
@@ -198,7 +195,6 @@ public class Philosopher implements Runnable {
     }
 
     private boolean holdingChopStick(ChopStick chopStick) {
-        log("ChopStick " + chopStick.getId() + " is hold by Philosopher " + id);
 	    return chopStick.currentUser() == id;
     }
 
