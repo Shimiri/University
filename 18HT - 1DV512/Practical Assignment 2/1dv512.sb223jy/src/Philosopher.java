@@ -13,13 +13,12 @@ public class Philosopher implements Runnable {
 	private int numberOfThinkingTurns = 0;
 	private int numberOfHungryTurns = 0;
 
-	private double thinkingTime = 0;
-	private double eatingTime = 0;
+	private double thinkingTime;
+	private double eatingTime;
 	private double hungryTime = 0;
 
 	private PhilosopherState state;
 	private int timeInState = 0;
-	private int maxTimeInState;
 
 	private boolean isDebugging = false;
 
@@ -46,7 +45,8 @@ public class Philosopher implements Runnable {
 		 */
 		
 		randomGenerator.setSeed(id+seed);
-        maxTimeInState = randomGenerator.nextInt(1000);
+        eatingTime = randomGenerator.nextInt(1000);
+        thinkingTime = randomGenerator.nextInt(1000);
 		state = PhilosopherState.THINKING;
 	}
 
@@ -63,7 +63,7 @@ public class Philosopher implements Runnable {
 		 * Return the average thinking time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return thinkingTime / numberOfThinkingTurns;
+		return 0;
 	}
 
 	public double getAverageEatingTime() {
@@ -71,7 +71,7 @@ public class Philosopher implements Runnable {
 		 * Return the average eating time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return eatingTime / numberOfEatingTurns;
+		return 0;
 	}
 
 	public double getAverageHungryTime() {
@@ -79,7 +79,7 @@ public class Philosopher implements Runnable {
 		 * Return the average hungry time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return hungryTime / numberOfHungryTurns;
+		return 0;
 	}
 	
 	public int getNumberOfThinkingTurns() {
@@ -123,7 +123,6 @@ public class Philosopher implements Runnable {
                 if (checkState()) {
                     changeState();
                 }
-                Thread.sleep(10);
             }
 		} catch (InterruptedException e) {
 			System.out.printf("Thread %d interrupted\n", Thread.currentThread().getId());
@@ -133,21 +132,25 @@ public class Philosopher implements Runnable {
 	private boolean checkState() throws InterruptedException {
         switch (state) {
             case THINKING:
-                thinkingTime++; break;
+                timeInState++; break;
             case EATING:
-                eatingTime++; break;
+                timeInState++; break;
             case HUNGRY:
                 hungryTime++; break;
             default:
                 break;
         }
-        timeInState++;
 
         if (Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
 
-        return timeInState > maxTimeInState;
+        if (state == PhilosopherState.THINKING) {
+            return timeInState > thinkingTime;
+        } else if (state == PhilosopherState.EATING) {
+            return timeInState > eatingTime;
+        }
+        return true;
     }
 
     private void changeState() throws InterruptedException {
@@ -162,7 +165,6 @@ public class Philosopher implements Runnable {
                 break;
         }
 
-        log("Philosopher " + id + " is " + state);
         if (Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
@@ -170,16 +172,24 @@ public class Philosopher implements Runnable {
 
     private void changeToHungry() {
         state = PhilosopherState.HUNGRY;
+        log("Philosopher " + id + " is " + state);
         numberOfThinkingTurns++;
-        timeInState = 0;
     }
 
     private void changeToEating() {
-        pickUpChopStick(leftChopStick);
-		pickUpChopStick(rightChopStick);
+		if (!holdingChopStick(leftChopStick)) {
+        	pickUpChopStick(leftChopStick);
+        }
+
+        if (holdingChopStick(leftChopStick)) {
+            if (!holdingChopStick(rightChopStick)) {
+                pickUpChopStick(rightChopStick);
+            }
+        }
 
         if (holdingChopStick(leftChopStick) && holdingChopStick(rightChopStick)) {
             state = PhilosopherState.EATING;
+            log("Philosopher " + id + " is " + state);
             numberOfHungryTurns++;
             timeInState = 0;
         }
@@ -190,6 +200,7 @@ public class Philosopher implements Runnable {
         putDownChopStick(rightChopStick);
 
         state = PhilosopherState.THINKING;
+        log("Philosopher " + id + " is " + state);
         numberOfEatingTurns++;
         timeInState = 0;
     }

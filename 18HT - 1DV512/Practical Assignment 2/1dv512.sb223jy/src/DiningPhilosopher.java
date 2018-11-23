@@ -47,7 +47,8 @@ public class DiningPhilosopher {
 			}
 
 			// Main thread sleeps till time of simulation
-			Thread.sleep(SIMULATION_TIME);
+            Thread.sleep(SIMULATION_TIME);
+
 
 			/*	TODO
 			 *  Stop all philosophers.

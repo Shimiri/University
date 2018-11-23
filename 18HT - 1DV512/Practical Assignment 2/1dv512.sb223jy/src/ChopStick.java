@@ -3,11 +3,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ChopStick {
 	private final int id;
+	private boolean isLocked;
 	private int currentUser = -1;
 	Lock myLock = new ReentrantLock();
 	
 	public ChopStick(int id) {
 		this.id = id;
+		isLocked = false;
 	}
 
 	/* TODO
@@ -28,10 +30,12 @@ public class ChopStick {
     public void pickUp(int id) {
 	    currentUser = id;
 	    myLock.lock();
+	    isLocked = true;
     }
 
     public void putDown() {
 	    currentUser = -1;
 	    myLock.unlock();
+	    isLocked = false;
     }
 }
