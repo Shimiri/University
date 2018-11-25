@@ -112,12 +112,12 @@ public class DiningPhilosopher {
 		System.out.println("PID \tATT \tAET \tAHT \t#TT \t#ET \t#HT");
 
 		for (Philosopher p : philosophers) {
-			System.out.println(p.getId() + "\t"
+			System.out.println(p.getId() + "\t\t"
 					+ df2.format(p.getAverageThinkingTime()) + "\t"
 					+ df2.format(p.getAverageEatingTime()) + "\t"
 					+ df2.format(p.getAverageHungryTime()) + "\t"
-					+ p.getNumberOfThinkingTurns() + "\t"
-					+ p.getNumberOfEatingTurns() + "\t"
+					+ p.getNumberOfThinkingTurns() + "\t\t"
+					+ p.getNumberOfEatingTurns() + "\t\t"
 					+ p.getNumberOfHungryTurns() + "\t");
 		}
 

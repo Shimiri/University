@@ -14,6 +14,6 @@ public class Main {
     	dp.initialize(simulationTime, seed); // initialize the required objects
     	dp.start(); // start the simulation process
 
-    	// dp.printTable();
+    	dp.printTable();
     }
 }

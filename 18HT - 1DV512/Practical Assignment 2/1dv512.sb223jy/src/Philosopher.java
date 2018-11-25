@@ -15,12 +15,16 @@ public class Philosopher implements Runnable {
 
 	private double thinkingTime;
 	private double eatingTime;
-	private double hungryTime = 0;
+
+	private double totalHungryTime;
+	private double totalThinkingTime;
+	private double totalEatingTime;
 
 	private PhilosopherState state;
-	private int timeInState = 0;
 
 	private boolean isDebugging = false;
+	private long timerStart;
+	private long timerEnd;
 
 	public Philosopher(int id, ChopStick leftChopStick, ChopStick rightChopStick, int seed) {
 		this.id = id;
@@ -43,10 +47,12 @@ public class Philosopher implements Runnable {
 		 * 		P4.seed = 100 + P4.id = 100 + 4 = 104
 		 * Therefore, if the ids of the philosophers are not 0,1,2,3,4 then different random numbers will be generated.
 		 */
-		
+
 		randomGenerator.setSeed(id+seed);
-        eatingTime = randomGenerator.nextInt(1000);
-        thinkingTime = randomGenerator.nextInt(1000);
+
+		setEatingTime();
+		setThinkingTime();
+
 		state = PhilosopherState.THINKING;
 	}
 
@@ -58,12 +64,19 @@ public class Philosopher implements Runnable {
 		return id;
 	}
 
+	/**
+	 * When calculating the average values, each time an activity (eating or thinking)
+	 * had finished the thinking or eating time is added to the total thinking or eating time.
+	 * That value is then divided by the number of thinking or eating turns which results in the
+	 * average value for each activity.
+	 */
+
 	public double getAverageThinkingTime() {
 		/* TODO
 		 * Return the average thinking time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+		return Math.floor(getTotalThinkingTime() / numberOfThinkingTurns);
 	}
 
 	public double getAverageEatingTime() {
@@ -71,7 +84,7 @@ public class Philosopher implements Runnable {
 		 * Return the average eating time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+		return Math.floor(getTotalEatingTime() / numberOfEatingTurns);
 	}
 
 	public double getAverageHungryTime() {
@@ -79,7 +92,7 @@ public class Philosopher implements Runnable {
 		 * Return the average hungry time
 		 * Add comprehensive comments to explain your implementation
 		 */
-		return 0;
+        return Math.floor(getTotalHungryTime() / numberOfHungryTurns);
 	}
 	
 	public int getNumberOfThinkingTurns() {
@@ -95,17 +108,30 @@ public class Philosopher implements Runnable {
 	}
 
 	public double getTotalThinkingTime() {
-		return thinkingTime;
+		return totalThinkingTime;
 	}
 
 	public double getTotalEatingTime() {
-		return eatingTime;
+		return totalEatingTime;
 	}
 
 	public double getTotalHungryTime() {
-		return hungryTime;
+		return totalHungryTime;
 	}
 
+
+	private void setEatingTime() {
+        eatingTime = randomGenerator.nextInt(1000);
+    }
+
+    private void setThinkingTime() {
+        thinkingTime = randomGenerator.nextInt(1000);
+    }
+
+    /**
+     * First the activity is simulated in doState, then after the philosopher is finished
+     * with the current activity he changes state to the next one
+     */
 	@Override
 	public void run() {
 		/* TODO
@@ -120,23 +146,29 @@ public class Philosopher implements Runnable {
 		try {
             log("Philosopher " + id + " is " + state);
 		    while (true) {
-                if (checkState()) {
-                    changeState();
-                }
+                doState();
+                changeState();
             }
 		} catch (InterruptedException e) {
 			System.out.printf("Thread %d interrupted\n", Thread.currentThread().getId());
 		}
 	}
 
-	private boolean checkState() throws InterruptedException {
-        switch (state) {
+    /**
+     * Simulates the philosopher activities by sleeping the thread for a time
+     * depending on the value produced by the randomGenerator
+     * @throws InterruptedException
+     */
+	private void doState() throws InterruptedException {
+	    switch (state) {
             case THINKING:
-                timeInState++; break;
+                Thread.sleep((long)thinkingTime);
+                break;
             case EATING:
-                timeInState++; break;
+                Thread.sleep((long)eatingTime);
+                break;
             case HUNGRY:
-                hungryTime++; break;
+                break;
             default:
                 break;
         }
@@ -144,15 +176,12 @@ public class Philosopher implements Runnable {
         if (Thread.currentThread().isInterrupted()) {
             throw new InterruptedException();
         }
-
-        if (state == PhilosopherState.THINKING) {
-            return timeInState > thinkingTime;
-        } else if (state == PhilosopherState.EATING) {
-            return timeInState > eatingTime;
-        }
-        return true;
     }
 
+    /**
+     * The state to change to is determined by which state the philosopher is currently in
+     * @throws InterruptedException
+     */
     private void changeState() throws InterruptedException {
 	    switch (state) {
             case THINKING:
@@ -172,55 +201,101 @@ public class Philosopher implements Runnable {
 
     private void changeToHungry() {
         state = PhilosopherState.HUNGRY;
-        log("Philosopher " + id + " is " + state);
         numberOfThinkingTurns++;
+
+        calculateThinkingTime();
+        setThinkingTime();
+
+        log("Philosopher " + id + " is " + state);
+        timerStart = System.currentTimeMillis();
     }
 
-    private void changeToEating() {
-		if (!holdingChopStick(leftChopStick)) {
-        	pickUpChopStick(leftChopStick);
+    /**
+     * To avoid deadlock, a special order in how to pick up the chopsticks was implemented.
+     * The chopstick with the lowest ID is always picked up first, and the second chopstick
+     * cannot be picked up if the philosopher doesn't hold the first one.
+     */
+    private void changeToEating() throws InterruptedException {
+        ChopStick first = rightChopStick;
+        ChopStick second = leftChopStick;
+
+        if (second.getId() < first.getId()) {
+            first = leftChopStick;
+            second = rightChopStick;
         }
 
-        if (holdingChopStick(leftChopStick)) {
-            if (!holdingChopStick(rightChopStick)) {
-                pickUpChopStick(rightChopStick);
+        while (!holds(first)) {
+            pickUpChopStick(first);
+
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
             }
         }
 
-        if (holdingChopStick(leftChopStick) && holdingChopStick(rightChopStick)) {
+        while (holds(first) && !holds(second)) {
+            pickUpChopStick(second);
+
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
+            }
+        }
+
+        if (holds(first) && holds(second)) {
             state = PhilosopherState.EATING;
             log("Philosopher " + id + " is " + state);
             numberOfHungryTurns++;
-            timeInState = 0;
+            timerEnd = System.currentTimeMillis();
+
+            calculateHungryTime();
         }
     }
 
+
     private void changeToThinking() {
-        putDownChopStick(leftChopStick);
         putDownChopStick(rightChopStick);
+        putDownChopStick(leftChopStick);
 
         state = PhilosopherState.THINKING;
-        log("Philosopher " + id + " is " + state);
         numberOfEatingTurns++;
-        timeInState = 0;
-    }
 
-    private boolean holdingChopStick(ChopStick chopStick) {
-	    return chopStick.currentUser() == id;
+        calculateEatingTime();
+        setEatingTime();
+
+        log("Philosopher " + id + " is " + state);
     }
 
     private void pickUpChopStick(ChopStick chopStick) {
-        if (chopStick.myLock.tryLock()) {
+        if (chopStick.tryPickUp(this)) {
             log("Philosopher " + id + " picked up ChopStick " + chopStick.getId());
-            chopStick.pickUp(id);
         }
     }
 
     private void putDownChopStick(ChopStick chopStick) {
-	    if (chopStick.currentUser() == id) {
+        if (chopStick.tryPutDown(this)) {
             log("Philosopher " + id + " put down ChopStick " + chopStick.getId());
-	        chopStick.putDown();
         }
+    }
+
+    private boolean holds(ChopStick chopStick) {
+	    return chopStick.isHeldBy(this);
+    }
+
+    /**
+     * For calculating the hungry time, timerStart and timerEnd was used.
+     * timerStart was set to the current time in milliseconds at the beginning of the hungry state.
+     * When the state had finally changed to EATING, the timerEnd stored the current time in millis again.
+     * Subtracting these two numbers results in the amount of time that has passed in the hungry state.
+     */
+    private void calculateHungryTime() {
+	    totalHungryTime += (timerEnd - timerStart);
+    }
+
+    private void calculateEatingTime() {
+	    totalEatingTime += eatingTime;
+    }
+
+    private void calculateThinkingTime() {
+	    totalThinkingTime += thinkingTime;
     }
 
     private void log(String msg) {
