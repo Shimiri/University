@@ -1,0 +1,123 @@
+﻿@using Data
+@using Model
+@using System.Collections.Generic
+@page "/list"
+@inject IDataAccess Data
+
+<h3>Browse</h3>
+
+<EditForm Model="@formData" class="input-group-lg">
+
+    <label>Release Year: </label>
+    <div class="form-inline margin">
+        <input type="search" class="form-control" @bind-value="formData.ReleaseYear" />
+    </div>
+
+    <div class="dropdown margin">
+        <InputSelect id="genre" @bind-Value="formData.Genre">
+            <option value="">Select genre</option>
+            @foreach (var g in Genres)
+            {
+                <option value="@g.Name">@g.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="input-group mb-2 margin">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <label for="checkbox-movie">Movie</label>
+                <InputCheckbox id="checkbox-movie" @bind-Value="formData.MovieChecked"></InputCheckbox>
+            </div>
+            <div class="input-group-text">
+                <label for="checkbox-show">TV Show</label>
+                <InputCheckbox id="checkbox-show" @bind-Value="formData.ShowChecked"></InputCheckbox>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-inline margin">
+        <input type="search" class="form-control" @bind-value="formData.SearchTerm" />
+        <div class="input-group-append">
+            <button class="btn btn-secondary" @onclick="SearchForTitle">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+
+<table class="table">
+    @foreach (var title in Batch)
+    {
+        <tr>
+            <td>@title.Name</td>
+            <td>@GetGenreString(title)</td>
+            <td>@title.AgeRating</td>
+            <td>@title.ReleaseYear</td>
+            <td>@title.Type</td>
+        </tr>
+    }
+</table>
+
+<div><button class="btn btn-dark" @onclick="LoadNextBatch">Load Next</button></div>
+
+@code {
+    private IEnumerable<Title> Titles;
+    private IEnumerable<Title> Batch;
+    private IEnumerable<Title> Subset;
+    private IEnumerable<Genre> Genres;
+    private SearchFormData formData = new SearchFormData();
+    private int Cursor = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Genres = Data.GetAllGenres();
+        Titles = Data.GetTitlesInListView();
+        Subset = Titles
+            .OrderByDescending(t => t.ReleaseYear);
+        LoadNextBatch();
+    }
+
+    private void SearchForTitle()
+    {
+        Cursor = 0;
+        Subset = Titles
+            .Where((t) => t.Name.Contains(formData.SearchTerm))
+            .OrderByDescending(t => t.ReleaseYear);
+
+        if (!(formData.ReleaseYear is null))
+            Subset = Subset.Where((t) => t.ReleaseYear == formData.ReleaseYear);
+
+        if (formData.ShowChecked && !formData.MovieChecked)
+            Subset = Subset.Where((t) => t.Type == "TV Show");
+
+        if (formData.MovieChecked && !formData.ShowChecked)
+            Subset = Subset.Where((t) => t.Type == "Movie");
+
+        if (formData.Genre != "")
+            Subset = Subset.Where((t) => t.Genres.Contains(new Genre() { Name = formData.Genre }));
+
+        LoadNextBatch();
+    }
+
+    private void LoadNextBatch()
+    {
+        Cursor += 100;
+        Batch = Subset
+            .Take<Title>(Cursor);
+    }
+
+    private void SortByDateAdded()
+    {
+
+    }
+
+    private string GetGenreString(Title title)
+    {
+        string s = "";
+        title.Genres.ForEach(genre => s += genre.Name + ", ");
+        s = s.Substring(0, s.Length - 2);
+        return s;
+    }
+}

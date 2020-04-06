@@ -1,0 +1,90 @@
+﻿@using Data
+@using Model
+@using System.Collections.Generic
+@using System.Linq;
+@page "/"
+@inject IDataAccess Data
+
+<EditForm Model="formData">
+    <label for="search-country">Check country availability for a title: </label>
+    <div class="form-inline margin">
+        <input id="search-country" type="search" class="form-control" @bind-value="formData.SearchTerm" />
+        <div class="input-group-append">
+            <button class="btn btn-secondary" @onclick="SearchForTitle">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+</EditForm>
+
+<table class="table">
+    @foreach (var country in countries)
+    {
+        <tr>
+            <td>@country.Name</td>
+        </tr>
+    }
+</table>
+
+<div class="horizontal-aligner">
+    <div class="margin">
+        <table class="table-bordered">
+            <tr>
+                <th>
+                    Genre
+                </th>
+                <th>
+                    Number of titles    
+                </th>
+            </tr>
+            @foreach (var pair in genreStats)
+            {
+                <tr>
+                    <td>@pair.Key</td>
+                    <td>@pair.Value</td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="margin">
+        <table class="table-bordered">
+            <tr>
+                <th>
+                    Country
+                </th>
+                <th>
+                    Number of titles
+                </th>
+            </tr>
+            @foreach (var pair in countryStats)
+            {
+                <tr>
+                    <td>@pair.Key</td>
+                    <td>@pair.Value</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+@code {
+    private List<Country> countries = new List<Country>();
+    private IDictionary<string, long> countryStats;
+    private IDictionary<string, long> genreStats;
+    private SearchFormData formData = new SearchFormData();
+
+    protected override async Task OnInitializedAsync()
+    {
+        countryStats = Data.GetTitleCountGroupByCountry();
+        genreStats = Data.GetTitleCountGroupByGenre();
+    }
+
+    private void SearchForTitle()
+    {
+
+        var id = Data.GetTitleIdByColumn("Name", formData.SearchTerm.Trim());
+        var newCountries = Data.GetCountriesByTitleId(id);
+        countries = new List<Country>();
+        countries.AddRange(newCountries);
+    }
+}
